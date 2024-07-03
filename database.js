@@ -11,13 +11,13 @@ const pool = mysql.createPool({
 // Convert pool.query to return promises
 const poolQuery = (sql, values) => {
     return new Promise((resolve, reject) => {
-      pool.query(sql, values, (error, results) => {
-        if (error) {
-          return reject(error);
-        }
-        resolve(results);
-      });
+        pool.query(sql, values, (error, results) => {
+            if (error) {
+                return reject(error);
+            }
+            resolve(results);
+        });
     });
-  };
+};
 
 module.exports = poolQuery;

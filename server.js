@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const registerRouter = require('./register/registerRoute');
 const loginRouter = require('./login/loginRoute');
+const lapanganRouter = require('./lapangan/lapanganRoute');
+const bookingRouter = require('./booking/bookingRoute');
 
 const app = express();
 
@@ -12,6 +14,9 @@ app.use(cors());
 // Routes
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/lapangan', lapanganRouter);
+app.use('/booking', bookingRouter);
+
 
 app.get('/', (req, res) => {
   res.status(403).send('Cannot direct access');
