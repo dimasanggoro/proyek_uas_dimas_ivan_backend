@@ -99,4 +99,23 @@ router.put('/:id', upload.single('foto_lapangan'), async (req, res) => {
     }
 });
 
+
+//delete lapangan
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const result = await poolQuery('DELETE FROM lapangan WHERE id_lapangan = ?', [id]);
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: 'Lapangan berhasil Di Hapus' });
+        } else {
+            res.status(404).json({ message: 'Lapangan not found' });
+        }
+    } catch (error) {
+        console.error('Error updating database:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+});
+
 module.exports = router;
