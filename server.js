@@ -6,6 +6,7 @@ const registerRouter = require('./register/registerRoute');
 const loginRouter = require('./login/loginRoute');
 const lapanganRouter = require('./lapangan/lapanganRoute');
 const bookingRouter = require('./booking/bookingRoute');
+const tipelapanganRouter = require('./tipe-lapangan/tipelapanganRoute');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/lapangan', lapanganRouter);
 app.use('/booking', bookingRouter);
+app.use('/tipe-lapangan', tipelapanganRouter);
 
 
 app.get('/', (req, res) => {
