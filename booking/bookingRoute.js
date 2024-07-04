@@ -36,12 +36,12 @@ router.get('/:id', async (req, res) => {
 
 // Add Booking
 router.post('/', async (req, res) => {
-    const { id_login, id_lapangan } = req.body;
-    if (!id_login || !id_lapangan) {
+    const { id_login, id_lapangan, booking_date } = req.body;
+    if (!id_login || !id_lapangan || !booking_date) {
         return res.status(400).json({ error: 'Semua field harus diisi' });
     }
     try {
-        const result = await poolQuery('INSERT INTO booking (id_login, id_lapangan) VALUES (?, ?)', [id_login, id_lapangan]);
+        const result = await poolQuery('INSERT INTO booking (id_login, id_lapangan, booking_date) VALUES (?, ?, ?)', [id_login, id_lapangan, booking_date]);
         res.status(201).json({ message: 'Booking berhasil ditambahkan', id: result.insertId });
     } catch (error) {
         console.error('Error inserting into database:', error);
