@@ -6,7 +6,7 @@
 .pnp.js
 
 #for image
-/lapangan/uploads
+/public/images
 
 # testing
 /coverage

@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const poolQuery = require('../database');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,7 +12,7 @@ router.use(cors());
 // Configure multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'lapangan/uploads/'); // specify the destination folder
+        cb(null, './public/images'); // specify the destination folder
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + '-' + file.originalname); // specify the file name
@@ -50,7 +51,10 @@ router.get('/:id', async (req, res) => {
 // Add Lapangan
 router.post('/', upload.single('foto_lapangan'), async (req, res) => {
     const { id_tipe_lapangan, nama_lapangan } = req.body;
-    const foto_lapangan = req.file ? req.file.path : null;
+    //const foto_lapangan = req.file ? req.file.filename : null; //output public\images\thisfilename.PNG
+    const foto_lapangan = req.file ? path.basename(req.file.path) : null;
+
+
 
     if (!id_tipe_lapangan || !nama_lapangan || !foto_lapangan) {
         return res.status(400).json({ error: 'Semua field harus diisi' });

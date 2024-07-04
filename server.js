@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const registerRouter = require('./register/registerRoute');
@@ -10,6 +11,9 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+
+// Serve static files from the 'public/images' directory
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // Routes
 app.use('/register', registerRouter);
