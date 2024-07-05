@@ -73,7 +73,7 @@ router.post('/', upload.single('foto_lapangan'), async (req, res) => {
 router.put('/:id', upload.single('foto_lapangan'), async (req, res) => {
     const { id } = req.params;
     const { id_tipe_lapangan, nama_lapangan } = req.body;
-    const foto_lapangan = req.file ? req.file.path : null;
+    const foto_lapangan = req.file ? path.basename(req.file.path) : null;
 
     if (!id_tipe_lapangan || !nama_lapangan) {
         return res.status(400).json({ error: 'Semua field harus diisi' });
