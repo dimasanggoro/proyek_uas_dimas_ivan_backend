@@ -1,4 +1,5 @@
 const express = require('express');
+const verifyToken = require('../middleware/verifyToken');
 const path = require('path');
 const poolQuery = require('../database');
 const bodyParser = require('body-parser');
@@ -22,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Get semua lapangan
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         const result = await poolQuery('SELECT * FROM view_lapangan', []);
         res.status(200).json(result);
@@ -33,7 +34,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get lapangan spesifik by id
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     try {
         const result = await poolQuery('SELECT * FROM view_lapangan WHERE id_lapangan = ?', [id]);
@@ -49,7 +50,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Add Lapangan
-router.post('/', upload.single('foto_lapangan'), async (req, res) => {
+router.post('/', verifyToken, upload.single('foto_lapangan'), async (req, res) => {
     const { id_tipe_lapangan, nama_lapangan } = req.body;
     //const foto_lapangan = req.file ? req.file.filename : null; //output public\images\thisfilename.PNG
     const foto_lapangan = req.file ? path.basename(req.file.path) : null;
@@ -70,7 +71,7 @@ router.post('/', upload.single('foto_lapangan'), async (req, res) => {
 });
 
 // Edit Lapangan
-router.put('/:id', upload.single('foto_lapangan'), async (req, res) => {
+router.put('/:id', verifyToken, upload.single('foto_lapangan'), async (req, res) => {
     const { id } = req.params;
     const { id_tipe_lapangan, nama_lapangan } = req.body;
     const foto_lapangan = req.file ? path.basename(req.file.path) : null;
@@ -105,7 +106,7 @@ router.put('/:id', upload.single('foto_lapangan'), async (req, res) => {
 
 
 //delete lapangan
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
 
     try {

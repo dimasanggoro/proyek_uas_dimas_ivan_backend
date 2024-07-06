@@ -1,4 +1,5 @@
 const express = require('express');
+const verifyToken = require('../middleware/verifyToken');
 const poolQuery = require('../database');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -8,7 +9,7 @@ router.use(bodyParser.json());
 router.use(cors());
 
 // Get semua booking data
-router.get('/', async (req, res) => {
+router.get('/', verifyToken, async (req, res) => {
     try {
         const result = await poolQuery('SELECT * FROM view_booking', []);
         res.status(200).json(result);
@@ -19,7 +20,7 @@ router.get('/', async (req, res) => {
 });
 
 // Get booking spesifik by id
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     try {
         const result = await poolQuery('SELECT * FROM view_booking WHERE id_booking = ?', [id]);
@@ -35,7 +36,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Add Booking
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     const { id_login, id_lapangan, booking_date } = req.body;
     if (!id_login || !id_lapangan || !booking_date) {
         return res.status(400).json({ error: 'Semua field harus diisi' });
@@ -50,7 +51,7 @@ router.post('/', async (req, res) => {
 });
 
 // Edit Booking
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     const { id_login, id_lapangan } = req.body;
 
@@ -72,7 +73,7 @@ router.put('/:id', async (req, res) => {
 });
 
 //delete booking
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
 
     try {
